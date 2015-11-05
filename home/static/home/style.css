@@ -1,0 +1,26 @@
+#banner{
+  margin-top: -20px;
+  background-image: url("../img/background/black_lozenge.png");
+}
+
+#bannerContainer {
+  padding-bottom: 45px;
+  padding-top: 130px;
+}
+
+#bannerContainer h1, #bannerContainer p {
+  color: white;
+}
+/*#bannerContainer>.col-lg-7>p {
+  color: white;
+}*/
+
+#conteudo {
+  margin-top: -30px;
+  height: 330px;
+  background-image: url("../img/vix_blur.jpg"); /*achar uma foto maior*/
+}
+
+#inputSignUp {
+  height: 45px;
+}

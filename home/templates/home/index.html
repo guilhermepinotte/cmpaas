@@ -1,0 +1,80 @@
+{% extends 'index.html' %} {% load static %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="jumbotron" id="banner">
+    <div class="container" id="bannerContainer">
+      <div class="col-lg-7">
+        <h1>Portal of Knowledge</h1>
+        <p>Powerful tool for representation of knowledge using Concept Maps.</p>
+        <p><a href="/editor">Access the Concept Maps Editor here!</a></p>
+      </div>
+      <div class="col-lg-5">
+        <form role="form" method="POST" action="">
+          <div class="form-group">
+            <input id="inputSignUp" type="email" class="form-control" id="inputNickname" placeholder="Pick a username">
+          </div>
+          <div class="form-group">
+            <input id="inputSignUp" type="email" class="form-control" id="inputEmail" placeholder="Your Email">
+          </div>
+          <div class="form-group">
+            <input id="inputSignUp" type="password" class="form-control" id="inputPassword" placeholder="Create a Password">
+          </div>
+          <button type="submit" class="btn btn-lg btn-success btn-block">Sign Up for Portal of Knowledge</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron text-center" id="conteudo">
+    <div class="container">
+      <br/>
+      <br/>
+      <br/>
+      <p class="lead">The Portal of Knowledge is the layer's vision of a service-oriented platform called CMPaaS. The CMPaaS services can be consumed by any client. Just take a look at our API.</p>
+      <a href="#" class="btn btn-primary btn-lg">Especification of CMPaaS's API</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <!-- <div class="col-lg-12">
+        <h1 class="page-header">Welcome to Portal of Knowledge</h1>
+      </div> -->
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4> Why use Concept Maps?</h4>
+          </div>
+          <div class="panel-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+            <a href="#" class="btn btn-default">Learn More</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <h4> What is CMPaaS?</h4>
+          </div>
+          <div class="panel-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+            <a href="#" class="btn btn-default">Learn More</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4> Why use Portal of Knowledge?</h4>
+          </div>
+          <div class="panel-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+            <a href="#" class="btn btn-default">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

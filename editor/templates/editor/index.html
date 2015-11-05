@@ -1,0 +1,19 @@
+{% extends 'index.html' %} {% load static %}
+
+{% block title %} Portal of Knowledge - Concept Maps Editor {% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'editor/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div id="myDiagram" class="editor"></div>
+    <button id="saveButton" type="submit" class="btn btn-default">Save</button>
+  </div>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'go/go-debug.js' %}"></script>
+  <script src="{% static 'js/editor.js' %}"></script>
+{% endblock %}
