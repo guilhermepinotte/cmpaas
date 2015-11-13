@@ -98,17 +98,17 @@ CMPAAS.editor = function() {
   public.save = function(){
     var map = serialize();
     console.log(map);
-    $.ajax({
-      type: 'POST',
-      url: '/editor/save/',
-      data: map,
-      sucess: function(e){
-        console.log(e);
-      },
-      error: function(e){
-        console.log(e);
-      }
-    })
+    $.post('/editor/save/', map, function(dados){
+      console.log(dados);
+    });
+  };
+
+  //carrega o mapa 
+  public.load = function(){
+    $.get('/editor/load/', function(dados){
+      console.log(dados);
+      myDiagram.model = go.Model.fromJson(dados);
+    });
   };
 
   // ################## PRIVATE ##################
@@ -158,6 +158,10 @@ CMPAAS.editor = function() {
 
   $('#saveButton').click(function(){
     editor.save();
+  });
+
+  $('#loadButton').click(function(){
+    editor.load();
   });
     
 })();

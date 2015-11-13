@@ -17,10 +17,19 @@
 
 #conteudo {
   margin-top: -30px;
-  height: 330px;
-  background-image: url("../img/vix_blur.jpg"); /*achar uma foto maior*/
+  height: 430px;
+  background: url("../img/vix_blur.jpg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 0 -100px;
 }
 
 #inputSignUp {
   height: 45px;
+}
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
 }

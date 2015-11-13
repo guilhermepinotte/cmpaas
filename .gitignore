@@ -54,3 +54,6 @@ target/
 
 # Sqlite
 db.sqlite3
+
+# Virtual Environment
+venv
