@@ -7,7 +7,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 import pymongo
 import json
-import bson
+# import bson
+
+# from bson import Binary, Code
+# from bson.json_util import dumps
 
 from pymongo import MongoClient
 

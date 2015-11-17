@@ -13,15 +13,17 @@
         <p><a href="/editor">Access the Concept Maps Editor here!</a></p>
       </div>
       <div class="col-lg-5">
-        <form role="form" method="POST" action="">
+        <!-- <form role="form" method="POST" action="/user/new"> -->
+        <form role="form" method="POST" action="{% url 'home:saveUser' %}">
+          {% csrf_token %}
           <div class="form-group">
-            <input id="inputSignUp" type="email" class="form-control" id="inputNickname" placeholder="Pick a username">
+            <input type="text" class="form-control inputSignUp" id="inputUsername" name="username" placeholder="Pick a username">
           </div>
           <div class="form-group">
-            <input id="inputSignUp" type="email" class="form-control" id="inputEmail" placeholder="Your Email">
+            <input type="email" class="form-control inputSignUp" id="inputEmail" name="email" placeholder="Your Email">
           </div>
           <div class="form-group">
-            <input id="inputSignUp" type="password" class="form-control" id="inputPassword" placeholder="Create a Password">
+            <input type="password" class="form-control inputSignUp" id="inputPassword" name="password" placeholder="Create a Password">
           </div>
           <button type="submit" class="btn btn-lg btn-success btn-block">Sign Up for Portal of Knowledge</button>
         </form>
