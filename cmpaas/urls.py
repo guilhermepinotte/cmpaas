@@ -17,8 +17,9 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^editor/', include('editor.urls', namespace="editor")),
     url(r'^', include('home.urls', namespace="home")),
+    url(r'^editor/', include('editor.urls', namespace="editor")),
+    url(r'^ontomap/', include('ontomap.urls', namespace="ontomap")),    
 
     url(r'^admin/', include(admin.site.urls)),
 ]

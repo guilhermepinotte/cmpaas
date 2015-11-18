@@ -1,13 +1,14 @@
 {% extends 'index.html' %} {% load static %}
 
-{% block title %} Portal of Knowledge - Concept Maps Editor {% endblock %}
+{% block title %} OntoMap {% endblock %}
 
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'editor/style.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'ontomap/style.css' %}" />
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container conteudo">
+    <h3 id="title" contenteditable="false">Name of the map</h3>
     <div id="myDiagram" class="editor"></div>
     <button id="saveButton" type="submit" class="btn btn-default">Save</button>
     <button id="loadButton" type="submit" class="btn btn-default">Load</button>
@@ -16,5 +17,6 @@
 
 {% block javascript %}
   <script src="{% static 'go/go-debug.js' %}"></script>
-  <script src="{% static 'editor/editor.js' %}"></script>
+  <script src="{% static 'ontomap/ontoeditor.js' %}"></script>
+  <script src="{% static 'ontomap/main.js' %}"></script>
 {% endblock %}

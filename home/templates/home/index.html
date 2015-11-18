@@ -13,7 +13,6 @@
         <p><a href="/editor">Access the Concept Maps Editor here!</a></p>
       </div>
       <div class="col-lg-5">
-        <!-- <form role="form" method="POST" action="/user/new"> -->
         <form role="form" method="POST" action="{% url 'home:saveUser' %}">
           {% csrf_token %}
           <div class="form-group">
