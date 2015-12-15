@@ -8,9 +8,10 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+myvenv/
+mongo/
 build/
 develop-eggs/
-dist/
 eggs/
 lib/
 lib64/
