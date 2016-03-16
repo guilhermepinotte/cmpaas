@@ -106,9 +106,55 @@ CMPAAS.editor = function() {
   //carrega o mapa 
   public.load = function(){
     $.get('/editor/load/', function(dados){
-      console.log(dados);
       myDiagram.model = go.Model.fromJson(dados);
     });
+  };
+
+  //exporta o mapa para OWL
+  // public.exportToOwl = function(){
+  //   var map = myDiagram.model.toJson();
+
+  //   console.log(map);
+  //   $.post('http://127.0.0.1:8080/ontomap/ontomap/service', map, function(dados){
+  //     console.log(dados);
+  //   });
+  // };
+
+  //exporta o mapa para OWL
+  public.exportToOwl = function(){
+    var map = myDiagram.model.toJson();
+    console.log(map);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/ontomap/ontomap/service",
+      // dataType:"JSON",
+      data: map,
+      crossDomain: true,
+      xhrFields: {
+        withCredentials: true
+      },
+      headers: {
+        // Set any custom headers here.
+        // If you set any non-simple headers, your server must include these
+        // headers in the 'Access-Control-Allow-Headers' response header.
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Credentials": true,
+        "Accept" : "*",
+        "Content-Type": "application/json; charset=utf-8"
+      },
+
+      success: 
+        function(data) {
+          console.log(data);
+        },
+      error: 
+        function(jqXHR, textStatus, errorMessage) {
+          console.log(errorMessage + " - " + textStatus); // Optional
+        }
+    });
+    return false;
   };
 
   // ################## PRIVATE ##################
@@ -162,6 +208,10 @@ CMPAAS.editor = function() {
 
   $('#loadButton').click(function(){
     editor.load();
+  });
+
+  $('#exportButton').click(function(){
+    editor.exportToOwl();
   });
     
 })();
