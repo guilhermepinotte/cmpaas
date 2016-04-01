@@ -1,5 +1,12 @@
 CMPAAS = {};
 
+
+// MUDAR ISSO AQUI
+// var customEditor = document.createElement("select");
+
+
+
+
 CMPAAS.editor = function() {
   var public = {};
 
@@ -10,7 +17,8 @@ CMPAAS.editor = function() {
 
     myDiagram =
       $$(go.Diagram, "myDiagram",  // must name or refer to the DIV HTML element
-        { initialContentAlignment: go.Spot.Center,
+        { 
+          initialContentAlignment: go.Spot.Center,
           // have mouse wheel events zoom in and out instead of scroll up and down
           "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
           // enable Ctrl-Z to undo and Ctrl-Y to redo
@@ -18,17 +26,7 @@ CMPAAS.editor = function() {
           "clickCreatingTool.archetypeNodeData": { text: "new node" }
         });
 
-    myDiagram.addDiagramListener("Modified", function(e) {
-      var button = document.getElementById("SaveButton");
-      if (button) button.disabled = !myDiagram.isModified;
-      var idx = document.title.indexOf("*");
-      if (myDiagram.isModified) {
-        if (idx < 0) document.title += "*";
-      } else {
-        if (idx >= 0) document.title = document.title.substr(0, idx); 
-      }
-    });
-
+    
     // define the Node template
     myDiagram.nodeTemplate =
       $$(go.Node, "Auto",
@@ -40,7 +38,7 @@ CMPAAS.editor = function() {
             portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer" }),
         $$(go.TextBlock,
           { font: "bold 10pt helvetica, bold arial, sans-serif",
-      margin: 4,
+            margin: 4,
             editable: true },
           new go.Binding("text", "text").makeTwoWay())
       );
@@ -65,32 +63,167 @@ CMPAAS.editor = function() {
     // replace the default Link template in the linkTemplateMap
     myDiagram.linkTemplate =
       $$(go.Link,  // the whole link panel
-        { curve: go.Link.Bezier,
+        { 
+          curve: go.Link.Bezier,
           adjusting: go.Link.Stretch,
           reshapable: true 
           //, routing: go.Link.AvoidsNodes
           //, corner: 1
-         },
+        },
         //new go.Binding("points").makeTwoWay(),
         new go.Binding("curviness", "curviness"),
         $$(go.Shape,  // the link shape
-          { isPanelMain: true,
-            stroke: "black", strokeWidth: 1.5 }),
-        $$(go.Shape,  // the arrowhead
-          { toArrow: "standard",
-            stroke: null }),
+          { 
+            isPanelMain: true,
+            stroke: "black", strokeWidth: 1.5,
+          }),
+        
         $$(go.Panel, "Auto",
-          $$(go.Shape,  // the link shape
-            { fill: radgrad, stroke: null }),
+          $$(go.Shape,  // the arrowhead
+            { 
+              fill: radgrad, stroke: null,
+            }),
           $$(go.TextBlock, "new relation",  // the label
-            { textAlign: "center",
+            { 
+              textAlign: "center",
               editable: true,
               font: "10pt helvetica, arial, sans-serif",
               stroke: "black",
-              margin: 4 },
+              margin: 4 
+            },
             new go.Binding("text", "text").makeTwoWay())
+          // {
+          //   click: 
+          //     function(e, obj) {
+          //       var list = ["are", "equivalent to", "cannot be", "exact opposite of", "is composed of", "is a", "same as", "different from", "is an attribute of", "that is"];
+
+          //       for (var i = 0; i < list.length; i++) {
+          //         op = document.createElement("option");
+          //         op.text = list[i];
+          //         op.value = list[i];
+          //         customEditor.add(op, null);
+          //       }
+          //       myDiagram.toolManager.textEditingTool.defaultTextEditor = customEditor;
+          //       myDiagram.toolManager.textEditingTool.starting = go.TextEditingTool.SingleClick;
+
+          //       customEditor.onActivate = function () {
+          //         customEditor.value = customEditor.textEditingTool.textBlock.text;
+          //         var loc = customEditor.textEditingTool.textBlock.getDocumentPoint(go.Spot.TopLeft);
+          //         var pos = customEditor.textEditingTool.diagram.transformDocToView(loc);
+          //         customEditor.style.left = pos.x + "px";
+          //         customEditor.style.top = pos.y + "px";
+          //       }
+          //     },
+          // }
         )
-      );
+      );   
+  
+
+    myDiagram.addDiagramListener("ObjectSingleClicked", function(e) {
+      var part = e.subject.part;
+
+      //Se clicar no No
+      if (!(part instanceof go.Link)) {
+        // console.log("Clicked on " + part.data.key);
+        // var textBox = document.createElement("input");
+        // textBox.type = "text";
+
+         //myDiagram.toolManager.textEditingTool.defaultTextEditor = textBox;
+        // myDiagram.toolManager.textEditingTool.starting = go.TextEditingTool.SingleClick;
+
+        // $(".start").remove();
+        myDiagram.toolManager.textEditingTool.defaultTextEditor = null;
+
+      } else {
+        // console.log("clicou no link");
+        var customEditor = document.createElement("datalist");
+        customEditor.id = "lista";
+
+        var list = ["are", "equivalent to", "cannot be", "exact opposite of", "is composed of", "is a", "same as", "different from", "is an attribute of", "that is"];
+
+        for (var i = 0; i < list.length; i++) {
+          op = document.createElement("option");
+          // op.text = list[i];
+          op.value = list[i];
+          customEditor.appendChild(op);
+        }
+
+        // console.log(customEditor);
+
+        var textBox = document.createElement("input");
+        textBox.type = "text";
+        textBox.id = "entrada";
+        textBox.setAttribute("list","lista");
+        // textBox.list = customEditor;
+
+        // console.log(textBox);
+
+        
+        var elemento = document.createElement("div");
+        elemento.appendChild(textBox);
+        elemento.appendChild(customEditor);
+
+        // console.log(elemento);
+
+        
+        // myDiagram.toolManager.textEditingTool.starting = go.TextEditingTool.SingleClick;
+        myDiagram.toolManager.textEditingTool.defaultTextEditor = elemento;
+
+
+        elemento.onActivate = function () {
+          // elemento.value = elemento.textEditingTool.textBlock.text;
+
+          // elemento.value = elemento.textEditingTool.textBlock.text;
+          // console.log(elemento.getElementsByTagName("option")[0].value);
+          // console.log(elemento.getElementsByTagName("input").value);
+
+
+          // elemento.value = elemento.textEditingTool.textBlock.text;
+
+          //console.log(elemento);
+          
+          // elemento.textEditingTool.textBlock.text = "teste";
+          //console.log(elemento.textEditingTool.textBlock.text);
+          var loc = elemento.textEditingTool.textBlock.getDocumentPoint(go.Spot.TopLeft);
+          var pos = elemento.textEditingTool.diagram.transformDocToView(loc);
+          elemento.style.left = pos.x + "px";
+          elemento.style.top = pos.y + "px";
+        };
+
+        textBox.oninput = function () {
+          // console.log(elemento.textEditingTool.textBlock.text);
+          console.log("imprimiou: "+ textBox.value + "--------");
+          elemento.textEditingTool.textBlock.text = textBox.value;
+          alert(myDiagram.toolManager.textEditingTool.textBlock.text);
+        };
+
+
+      }
+    });
+
+    myDiagram.addDiagramListener("Modified", function(e) {
+      console.log("entrou no evento Modified");
+
+      var button = document.getElementById("saveButton");
+      if (button) button.disabled = !myDiagram.isModified;
+      var idx = document.title.indexOf("*");
+      if (myDiagram.isModified) {
+        if (idx < 0) document.title += "*";
+      } else {
+        if (idx >= 0) document.title = document.title.substr(0, idx); 
+      }
+
+
+      //retornar com o textblock que foi alterado no evento de click
+      myDiagram.toolManager.textEditingTool.defaultTextEditor = null;
+    });
+
+
+    myDiagram.addDiagramListener("BackgroundSingleClicked", function(e) {
+      console.log("entrou no evento BackgroundSingleClicked");
+
+       myDiagram.toolManager.textEditingTool.defaultTextEditor = null;
+    });
 
   };
 
@@ -201,6 +334,7 @@ CMPAAS.editor = function() {
 (function() {
   var editor = CMPAAS.editor();
   editor.init();
+
 
   $('#saveButton').click(function(){
     editor.save();
