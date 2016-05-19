@@ -4,7 +4,8 @@ CMPAAS = {};
 // MUDAR ISSO AQUI
 // var customEditor = document.createElement("select");
 
-
+var elemento;
+var label;
 
 
 CMPAAS.editor = function() {
@@ -75,14 +76,17 @@ CMPAAS.editor = function() {
         $$(go.Shape,  // the link shape
           { 
             isPanelMain: true,
-            stroke: "black", strokeWidth: 1.5,
+            stroke: "black", 
+            strokeWidth: 1.5
           }),
-        
+        $$(go.Shape,  // the arrowhead
+          { 
+            toArrow: "standard",
+            stroke: null 
+          }),
         $$(go.Panel, "Auto",
           $$(go.Shape,  // the arrowhead
-            { 
-              fill: radgrad, stroke: null,
-            }),
+            { fill: radgrad, stroke: null, }),
           $$(go.TextBlock, "new relation",  // the label
             { 
               textAlign: "center",
@@ -118,24 +122,48 @@ CMPAAS.editor = function() {
         )
       );   
   
+    
+
+    //MELHRAR ISSO AQUI********************************************************************************************************
+    // var customEditor = document.createElement("datalist");
+    // customEditor.id = "lista";
+
+    // var list = ["are", "equivalent to", "cannot be", "exact opposite of", "is composed of", "is a", "same as", "different from", "is an attribute of", "that is"];
+
+    // for (var i = 0; i < list.length; i++) {
+    //   op = document.createElement("option");
+    //   // op.text = list[i];
+    //   op.value = list[i];
+    //   customEditor.appendChild(op);
+    // }
+
+    // var textBox = document.createElement("input");
+    // textBox.type = "text";
+    // textBox.id = "entrada";
+    // textBox.name = "stereotype";
+    
+    // textBox.setAttribute("list","lista");
+   
+    // elemento = document.createElement("div");
+    // elemento.setAttribute("id","teste")
+    // elemento.appendChild(textBox);
+    // elemento.appendChild(customEditor); 
+    //**************************************************************************************************************************
+
+
 
     myDiagram.addDiagramListener("ObjectSingleClicked", function(e) {
+      console.log("entrou no evento ObjectSingleClicked");
+
       var part = e.subject.part;
 
       //Se clicar no No
       if (!(part instanceof go.Link)) {
-        // console.log("Clicked on " + part.data.key);
-        // var textBox = document.createElement("input");
-        // textBox.type = "text";
-
-         //myDiagram.toolManager.textEditingTool.defaultTextEditor = textBox;
-        // myDiagram.toolManager.textEditingTool.starting = go.TextEditingTool.SingleClick;
-
-        // $(".start").remove();
         myDiagram.toolManager.textEditingTool.defaultTextEditor = null;
 
       } else {
-        // console.log("clicou no link");
+
+
         var customEditor = document.createElement("datalist");
         customEditor.id = "lista";
 
@@ -148,36 +176,66 @@ CMPAAS.editor = function() {
           customEditor.appendChild(op);
         }
 
-        // console.log(customEditor);
-
         var textBox = document.createElement("input");
         textBox.type = "text";
         textBox.id = "entrada";
-        textBox.setAttribute("list","lista");
-        // textBox.list = customEditor;
-
-        // console.log(textBox);
-
+        textBox.name = "stereotype";
         
-        var elemento = document.createElement("div");
+        textBox.setAttribute("list","lista");
+       
+        elemento = document.createElement("div");
+        elemento.setAttribute("id","teste")
         elemento.appendChild(textBox);
         elemento.appendChild(customEditor);
 
-        // console.log(elemento);
 
-        
+
+
         // myDiagram.toolManager.textEditingTool.starting = go.TextEditingTool.SingleClick;
         myDiagram.toolManager.textEditingTool.defaultTextEditor = elemento;
+        // elemento.value = elemento.textEditingTool.textBlock.text;
 
+        elemento.oninput = function () {
+          console.log("entrou no evento de oninput do elemento");
+          elemento.value = elemento.textEditingTool.textBlock.text;
+        }
 
         elemento.onActivate = function () {
+          console.log("entrou no evento de onActivate");
+          // label = elemento.textEditingTool.textBlock.text;
+          elemento.value = elemento.textEditingTool.textBlock.text;
+
+
+          // Do a few different things when a user presses a key
+          // elemento.addEventListener("keydown", function(e) {
+
+          //   console.log("entrou no evento de keydown");
+            
+          //   var keynum = e.which;
+          //   var tool = elemento.textEditingTool; 
+          //   if (tool === null) return;
+          //   if (keynum == 13) { // Accept on Enter
+          //     tool.acceptText(go.TextEditingTool.Enter);
+          //     console.log("apertou enter");
+          //     return;
+          //   } else if (keynum == 9) { // Accept on Tab
+          //     tool.acceptText(go.TextEditingTool.Tab);
+          //     e.preventDefault();
+          //     console.log("apertou tab");
+          //     return false;
+          //   } else if (keynum === 27) { // Cancel on Esc
+          //     tool.doCancel();
+          //     console.log("apertou esc");
+          //     if (tool.diagram) tool.diagram.focus();
+          //   }
+          // }, false);
+         
           // elemento.value = elemento.textEditingTool.textBlock.text;
 
-          // elemento.value = elemento.textEditingTool.textBlock.text;
-          // console.log(elemento.getElementsByTagName("option")[0].value);
-          // console.log(elemento.getElementsByTagName("input").value);
+          // elemento.value = label;
 
 
+          // console.log(elemento.textEditingTool.textBlock.text);
           // elemento.value = elemento.textEditingTool.textBlock.text;
 
           //console.log(elemento);
@@ -192,9 +250,10 @@ CMPAAS.editor = function() {
 
         textBox.oninput = function () {
           // console.log(elemento.textEditingTool.textBlock.text);
-          console.log("imprimiou: "+ textBox.value + "--------");
+          // console.log("imprimiou: "+ textBox.value + "--------");
+          console.log("entrou no evento de oninput");
           elemento.textEditingTool.textBlock.text = textBox.value;
-          alert(myDiagram.toolManager.textEditingTool.textBlock.text);
+          // alert(myDiagram.toolManager.textEditingTool.textBlock.text);
         };
 
 
@@ -218,11 +277,9 @@ CMPAAS.editor = function() {
       myDiagram.toolManager.textEditingTool.defaultTextEditor = null;
     });
 
-
     myDiagram.addDiagramListener("BackgroundSingleClicked", function(e) {
       console.log("entrou no evento BackgroundSingleClicked");
-
-       myDiagram.toolManager.textEditingTool.defaultTextEditor = null;
+      myDiagram.toolManager.textEditingTool.defaultTextEditor = null;
     });
 
   };
@@ -281,6 +338,8 @@ CMPAAS.editor = function() {
       success: 
         function(data) {
           console.log(data);
+          // var titleMap = $("#title").text();
+          saveTextAsFile(data, $("#title").text());
         },
       error: 
         function(jqXHR, textStatus, errorMessage) {
@@ -327,8 +386,70 @@ CMPAAS.editor = function() {
     diagram.commitTransaction("Add State");
   }
 
+  function criaDataList() {
+    var customEditor = document.createElement("datalist");
+    customEditor.id = "lista";
+
+    var list = ["are", "equivalent to", "cannot be", "exact opposite of", "is composed of", "is a", "same as", "different from", "is an attribute of", "that is"];
+
+    for (var i = 0; i < list.length; i++) {
+      op = document.createElement("option");
+      // op.text = list[i];
+      op.value = list[i];
+      customEditor.appendChild(op);
+    }
+
+    // console.log(customEditor);
+
+    var textBox = document.createElement("input");
+    textBox.type = "text";
+    textBox.id = "entrada";
+    textBox.name = "stereotype";
+    
+    textBox.setAttribute("list","lista");
+    // textBox.list = customEditor;
+
+    console.log(textBox);
+
+    var elemento = document.createElement("div");
+    elemento.appendChild(textBox);
+    elemento.appendChild(customEditor);
+  }
+
   return public;
 };
+
+  function saveTextAsFile(data, title) {
+    // var textFileAsBlob = new Blob([data], {type:'text/xml'}); 
+
+    // var xmlDoc = new DOMParser().parseFromString(data, "application/xml");
+    var parserXML = new XMLSerializer().serializeToString(data);
+    // var results = new XMLSerializer().serializeToString(xmlDoc);
+    console.log(parserXML);
+
+    var textFileAsBlob = new Blob([parserXML]); 
+
+    var downloadLink = document.createElement("a");
+    downloadLink.download = title + ".owl";
+    // downloadLink.innerHTML = "Download File";
+    if (window.URL != null)
+    {
+      // Chrome allows the link to be clicked
+      // without actually adding it to the DOM.
+      downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+    }
+    else
+    {
+      // Firefox requires the link to be added to the DOM
+      // before it can be clicked.
+      downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+      downloadLink.onclick = destroyClickedElement;
+      downloadLink.style.display = "none";
+      document.body.appendChild(downloadLink);
+    }
+
+    downloadLink.click();
+  }
 
 
 (function() {
